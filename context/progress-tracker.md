@@ -10,7 +10,7 @@ This file is intentionally light during the planning stage. Once development beg
 
 ## Current Goal
 
-- Configure Tailwind CSS and shadcn/ui on top of the initialized Next.js app.
+- Configure Clerk authentication as the next implementation unit. Read `context/steps/02-ClerkAuthentication.md` for more context.
 
 ## Completed
 
@@ -47,24 +47,34 @@ This file is intentionally light during the planning stage. Once development beg
   - `npm run typecheck`
   - `npm run lint`
   - `npm run build`
+- Tailwind CSS 4 and PostCSS configured for the Next.js app.
+- PostCSS config finalized as `postcss.config.js` so Next.js reliably applies Tailwind during dev/build.
+- Tailwind CSS-first theme mapping added for Wonkledge dark tokens.
+- Tailwind source paths configured for App Router, components, features, and lib files.
+- shadcn/ui initialized with `components.json`, project aliases, Lucide icon configuration, and `lib/utils.ts`.
+- Initial home route migrated to Tailwind utility classes while preserving the dark Wonkledge shell.
+- Step record `context/steps/01-TailwindAndShadcn.md` marked completed.
+- Verified Tailwind/shadcn setup with:
+  - `npm run typecheck`
+  - `npm run lint`
+  - `npm run build`
 
 ## In Progress
 
-- Project setup is complete.
-- Next implementation unit should configure Tailwind CSS and shadcn/ui.
+- Project setup and Tailwind/shadcn setup are complete.
+- Next implementation unit should configure Clerk authentication.
 
 ## Next Up
 
-1. Install and configure Tailwind CSS and shadcn/ui.
-2. Configure Clerk authentication.
-3. Create the base route groups:
+1. Configure Clerk authentication.
+2. Create the base route groups:
    - public
    - student
    - teacher
    - admin
-4. Create internal user and role mapping.
-5. Build the first dashboard shells.
-6. Normalize the detailed user stories filename/reference if needed before feature implementation.
+3. Create internal user and role mapping.
+4. Build the first dashboard shells.
+5. Normalize the detailed user stories filename/reference if needed before feature implementation.
 
 ## Open Questions
 
@@ -100,3 +110,7 @@ This file is intentionally light during the planning stage. Once development beg
 - 2026-05-08: Initialized Git and scaffolded the first Next.js app setup.
 - 2026-05-08: `npm install` reported 2 moderate npm audit findings; do not run `npm audit fix --force` without reviewing dependency impact.
 - 2026-05-08: Added the step tracking workflow to `CLAUDE.md` and created `context/steps/01-TailwindAndShadcn.md` as the active task record for the next implementation unit.
+- 2026-05-08: Completed Tailwind CSS and shadcn/ui setup. Tailwind uses the official v4 PostCSS integration, `app/globals.css` preserves and maps Wonkledge dark tokens, and shadcn is configured without adding generated UI primitives yet.
+- 2026-05-08: Created `context/steps/02-ClerkAuthentication.md` as the next task record for Clerk authentication setup.
+- 2026-05-08: Fixed Tailwind CSS not applying in the browser by moving PostCSS configuration to `postcss.config.js`; verified the production CSS output contains generated Tailwind utilities such as `.grid`, `.min-h-screen`, `.bg-background`, and token-based text/background classes.
+- 2026-05-08: Fixed non-standard `@theme inline` syntax and corrected `@source` paths to resolve utility generation issues in Next.js 15. Verified with a successful production build.

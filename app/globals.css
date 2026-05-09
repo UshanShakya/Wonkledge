@@ -4,6 +4,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @source "../app/**/*.{ts,tsx,mdx}";
+@source "../components/**/*.{ts,tsx,mdx}";
+@source "../features/**/*.{ts,tsx,mdx}";
 @source "../lib/**/*.{ts,tsx,mdx}";
 
 @theme {
@@ -145,6 +147,20 @@
   --spacing-xl: 32px;
   --spacing-gutter: 20px;
   --container-max: 1440px;
+
+  --clerk-color-primary: var(--primary);
+  --clerk-color-primary-foreground: var(--on-primary);
+  --clerk-color-foreground: var(--on-surface);
+  --clerk-color-muted-foreground: var(--on-surface-variant);
+  --clerk-color-muted: var(--surface-container-high);
+  --clerk-color-background: var(--surface-container-low);
+  --clerk-color-input-foreground: var(--on-surface);
+  --clerk-color-input: var(--surface-container-lowest);
+  --clerk-color-danger: var(--error);
+  --clerk-color-neutral: var(--outline);
+  --clerk-border-radius: var(--radius-md);
+  --clerk-font-family: var(--font-sans);
+  --clerk-font-family-buttons: var(--font-sans);
 
   --foreground: var(--on-background);
   --card: var(--surface-container);

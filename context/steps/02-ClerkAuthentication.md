@@ -2,7 +2,7 @@
 
 ## Status
 
-- Not Started
+- Completed
 
 ## Source Requirement
 
@@ -27,16 +27,16 @@ Install and configure Clerk authentication for the existing Next.js 15 App Route
 
 ## Checklist
 
-- [ ] Confirm current project setup and dependency versions.
-- [ ] Install `@clerk/nextjs`.
-- [ ] Configure required Clerk environment variable placeholders or documentation.
-- [ ] Wrap the app with `ClerkProvider` in `app/layout.tsx`.
-- [ ] Add Clerk middleware for future protected application routes.
-- [ ] Add sign-in/sign-up routes if required by the selected Clerk flow.
-- [ ] Confirm public home route remains accessible.
-- [ ] Confirm protected-route behavior is defined without adding dashboards yet.
-- [ ] Run verification commands.
-- [ ] Update `context/progress-tracker.md` after completion.
+- [x] Confirm current project setup and dependency versions.
+- [x] Install `@clerk/nextjs`.
+- [x] Configure required Clerk environment variable placeholders or documentation.
+- [x] Wrap the app with `ClerkProvider` in `app/layout.tsx`.
+- [x] Add Clerk middleware for future protected application routes.
+- [x] Add sign-in/sign-up routes if required by the selected Clerk flow.
+- [x] Confirm public home route remains accessible.
+- [x] Confirm protected-route behavior is defined without adding dashboards yet.
+- [x] Run verification commands.
+- [x] Update `context/progress-tracker.md` after completion.
 
 ## Completion Criteria
 
@@ -44,7 +44,7 @@ Install and configure Clerk authentication for the existing Next.js 15 App Route
 - The app can support Clerk sign-in/sign-up without hardcoded secrets.
 - Public routes remain public.
 - Future protected route groups have an auth middleware foundation.
-- Internal role mapping is intentionally left for the next step.
+- Internal role mapping is intentionally left for a later step.
 - TypeScript, lint, and production build pass.
 - This step file is marked `Completed`.
 - `context/progress-tracker.md` records the completed Clerk setup and the next task.
@@ -59,4 +59,24 @@ npm run build
 
 ## Completion Notes
 
-- Pending.
+- Installed `@clerk/nextjs` and updated `package-lock.json`.
+- Added `ClerkProvider` to `app/layout.tsx` while preserving the dark Wonkledge root shell.
+- Added `middleware.ts` using `clerkMiddleware()` and `createRouteMatcher()` for the future protected URL namespaces:
+  - `/student(.*)`
+  - `/teacher(.*)`
+  - `/admin(.*)`
+  - shared protected student areas such as `/dashboard(.*)`, `/learn(.*)`, `/practice(.*)`, `/mock-tests(.*)`, `/bookmarks(.*)`, `/profile(.*)`, and `/subscriptions(.*)`
+  - future scoped API routes under `/api/student(.*)`, `/api/teacher(.*)`, and `/api/admin(.*)`
+- Added custom Clerk catch-all routes:
+  - `app/(auth)/sign-in/[[...sign-in]]/page.tsx`
+  - `app/(auth)/sign-up/[[...sign-up]]/page.tsx`
+- Added `.env.example` with safe Clerk key and redirect placeholders. No real secrets were committed.
+- `.gitignore` now excludes local `.clerk/` configuration created by Clerk keyless development mode.
+- Mapped Clerk prebuilt-component CSS variables to the Wonkledge dark theme tokens in `app/globals.css`.
+- Restored Tailwind `@source` entries for future `components` and `features` files, matching the completed Tailwind/shadcn step record.
+- Normalized the detailed user stories file from `context/wonkledge_user_stories.md` to `context/user-stories.md` so the documented source-of-truth path exists.
+- Internal user profile, role mapping, dashboards, database, payment, AI, and subscription work were intentionally left for later steps.
+- Verified with:
+  - `npm run typecheck`
+  - `npm run lint`
+  - `npm run build`

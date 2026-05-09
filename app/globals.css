@@ -89,9 +89,9 @@
   --outline: #8c909f;
   --outline-variant: #424754;
 
-  --surface-tint: #adc6ff;
+  --surface-tint: #6d95ef;
 
-  --primary: #adc6ff;
+  --primary: #6d95ef;
   --on-primary: #002e6a;
   --primary-container: #4d8eff;
   --on-primary-container: #00285d;
@@ -113,7 +113,7 @@
   --on-error-container: #ffdad6;
 
   --primary-fixed: #d8e2ff;
-  --primary-fixed-dim: #adc6ff;
+  --primary-fixed-dim: #6d95ef;
   --on-primary-fixed: #001a42;
   --on-primary-fixed-variant: #004395;
 
@@ -187,7 +187,20 @@
 
 html {
   min-height: 100%;
+  scroll-padding-top: 5rem;
   color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {

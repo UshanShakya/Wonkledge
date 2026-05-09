@@ -6,11 +6,11 @@ This file is intentionally light during the planning stage. Once development beg
 
 ## Current Phase
 
-- Implementation started / Base route groups complete
+- Implementation started / Landing login logout navigation complete
 
 ## Current Goal
 
-- Set up PostgreSQL and Prisma for internal user and role mapping as the next implementation unit. Read `context/steps/04-DatabaseAndRoleMappingFoundation.md` for more context.
+- Build the proper admin/staff access request and verification workflow, then continue toward exam category and track structure.
 
 ## Completed
 
@@ -91,22 +91,78 @@ This file is intentionally light during the planning stage. Once development beg
   - `npm run lint`
   - `npm run build`
   - `npm run typecheck`
+- Prisma dependencies installed:
+  - `@prisma/client`
+  - `prisma`
+  - `@prisma/adapter-pg`
+- Environment placeholder normalized to `.env.example` and updated with `DATABASE_URL` documentation.
+- Prisma 7 configured with:
+  - `prisma.config.ts`
+  - `prisma/schema.prisma`
+  - `prisma/migrations/20260509072609_init_identity/migration.sql`
+- Initial internal identity schema added:
+  - `User`
+  - `UserRole`
+  - `AppRole`
+  - `UserStatus`
+- Initial role set added:
+  - Student
+  - Teacher/Reviewer
+  - Content Admin
+  - Reviewer Admin
+  - Super Admin
+- Shared Prisma client singleton added in `lib/prisma.ts`.
+- Server-only internal user and role helper added in `lib/auth/app-user.ts`.
+- Student route access now creates a missing internal student user from the current Clerk user.
+- `/student`, `/teacher`, and `/admin` route groups now enforce database-backed role checks in addition to Clerk authentication.
+- Admin roles no longer automatically grant student or teacher route access unless those roles are explicitly assigned too.
+- Initial Prisma migration applied against local PostgreSQL using:
+  - `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wonkledge_db?schema=public"`
+- Step record `context/steps/04-DatabaseAndRoleMappingFoundation.md` marked completed.
+- Step record `context/steps/05-DashboardShellsAndRoleRedirects.md` created for the next implementation unit.
+- Verified database and role-mapping foundation with:
+  - `npx prisma validate`
+  - `npx prisma migrate dev --name init_identity`
+  - `npx prisma generate`
+  - `npm run typecheck`
+  - `npm run lint`
+  - `npm run build`
+- Step record `context/steps/05-DashboardShellsAndRoleRedirects.md` renamed and rescoped to `context/steps/05-LandingLoginLogoutNavigation.md`.
+- Step record `context/steps/06-DashboardShellsAndRoleRedirects.md` created for the deferred dashboard redirect unit.
+- Public landing page replaced the temporary home shell with:
+  - desktop navigation
+  - mobile navigation
+  - hero-style public page
+  - what-we-do section
+  - services section
+  - account type selection section
+  - contact section
+  - Student login entry
+  - Teacher login entry
+  - Admin login entry
+  - signed-in logout access
+- Role entry helper added in `lib/auth/role-entry.ts` for role-specific sign-in, sign-up, and protected workspace URLs.
+- Generic `/sign-up` now asks users to choose an account type before showing Clerk account creation.
+- Student and teacher signup are now self-service role-specific flows; admin account access remains approval/bootstrap-based until staff role management exists.
+- `/sign-in` now accepts role and redirect query params and shows role-specific context before Clerk sign-in.
+- Temporary admin bootstrap script added:
+  - `scripts/grant-admin-role.mjs`
+  - `npm run grant:admin`
+- Step record `context/steps/05-LandingLoginLogoutNavigation.md` marked completed.
+- Verified landing login/logout navigation with:
+  - `npm run typecheck`
+  - `npm run lint`
+  - `npm run build`
 
 ## In Progress
 
-- Project setup, Tailwind/shadcn setup, Clerk authentication, and base route groups are complete.
-- Next implementation unit should add the PostgreSQL/Prisma foundation for internal user and role mapping.
+- Project setup, Tailwind/shadcn setup, Clerk authentication, base route groups, database-backed role foundation, landing login/logout navigation, and role-aware dashboard redirects are complete.
+- Next implementation unit should add proper admin/staff access request and verification behavior.
 
 ## Next Up
 
-1. Add PostgreSQL and Prisma foundation:
-   - database connection
-   - Prisma schema
-   - Prisma client helper
-   - environment placeholders
-2. Create internal user and role mapping.
-3. Build the first dashboard shells.
-4. Normalize protected dashboard redirects after internal roles exist.
+1. Build a proper admin/staff access request and verification workflow.
+2. Continue toward exam category and track structure after dashboard entry behavior is stable.
 
 ## Open Questions
 
@@ -116,6 +172,7 @@ This file is intentionally light during the planning stage. Once development beg
 - Will teacher review be included in the first paid MVP plan or introduced after launch?
 - Should SMS notifications be added in MVP or later?
 - What exact first exam category should be launched first: SEE/SLC, +2, Loksewa, or PEA?
+- Should admin/staff access requests be modeled as a dedicated `RoleRequest`/`StaffAccessRequest` table or handled through an invite flow first?
 
 ## Architecture Decisions
 
@@ -154,3 +211,18 @@ This file is intentionally light during the planning stage. Once development beg
 - 2026-05-09: Completed Step 03 route groups. `/` remains public from `app/(public)/page.tsx`; `/student`, `/teacher`, and `/admin` now exist and are protected by Clerk middleware plus server-side `auth.protect()` layouts.
 - 2026-05-09: Confirmed Clerk protected access can be tested without a database. Database-backed role authorization still requires the next PostgreSQL/Prisma step.
 - 2026-05-09: Created `context/steps/04-DatabaseAndRoleMappingFoundation.md` for PostgreSQL, Prisma, internal users, and role mapping.
+- 2026-05-09: Completed Step 04 database and role-mapping foundation. Prisma 7 uses `prisma.config.ts` for the datasource URL and `@prisma/adapter-pg` for the PostgreSQL runtime adapter.
+- 2026-05-09: Applied migration `20260509072609_init_identity` to local PostgreSQL. The initial identity schema maps each Clerk user to one internal `User` and supports multiple `UserRole` rows.
+- 2026-05-09: Added role-backed server checks to `/student`, `/teacher`, and `/admin`. A user authenticated through Clerk can no longer cross into another protected route group without the required internal role.
+- 2026-05-09: Created `context/steps/05-DashboardShellsAndRoleRedirects.md` as the next task record for role-aware dashboard redirects and first dashboard shells.
+- 2026-05-09: Hardened the Prisma client helper so missing `DATABASE_URL` fails with a clear setup error instead of the PostgreSQL driver's `SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string` error.
+- 2026-05-09: Renamed and rescoped Step 05 to `context/steps/05-LandingLoginLogoutNavigation.md`, moving dashboard redirects into Step 06.
+- 2026-05-09: Completed Step 05 landing login/logout navigation. `/` now has desktop and mobile navigation, role-specific entry links for student/teacher/admin, and signed-in logout access.
+- 2026-05-09: Created `context/steps/06-DashboardShellsAndRoleRedirects.md` as the next task record for role-aware dashboard redirects and first dashboard shells.
+- 2026-05-09: Revised the Step 05 landing page away from a dashboard-style preview and into a public hero page with what-we-do, services, accounts, and contact sections.
+- 2026-05-09: Updated account creation so `/sign-up` asks for account type first. Student and teacher signup are self-service role-specific flows; admin access routes to sign-in/contact until staff role management exists.
+- 2026-05-09: Investigated a reported Clerk sign-in `ChunkLoadError`. The app builds successfully, and the error referenced `localhost:3000` while the previous dev server was on `localhost:3001`; restarted the dev server on `http://localhost:3000`.
+- 2026-05-09: Removed `users.primaryRole` with migration `20260509083000_remove_primary_role`; `user_roles` is now the single source of truth for authorization role assignments.
+- 2026-05-09: Added an npm override for `@hono/node-server` to address the dev-only Prisma audit finding through `@prisma/dev`.
+- 2026-05-09: Added `scripts/grant-admin-role.mjs` and `npm run grant:admin` as a temporary bootstrap path for granting `super_admin`, `content_admin`, or `reviewer_admin` to a known Clerk/internal user before staff verification UI exists.
+- 2026-05-09: Fixed the role-specific signup and dashboard entry bug. `/dashboard` now creates or finds the internal app user from Clerk, redirects by database role priority, and sends no-role accounts to `/access-pending`; student and teacher signup store `wonkledgeSignupRole` in Clerk unsafe metadata so teacher-intent accounts no longer become students. Public signed-in navigation now points to `/dashboard` instead of hardcoded student links, while admin signup remains approval/bootstrap-only.

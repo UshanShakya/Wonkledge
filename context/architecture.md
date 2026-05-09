@@ -230,7 +230,7 @@ Do not introduce cache as the source of truth.
 - Clerk stores identity and authentication state.
 - The internal database stores app-specific profile, roles, subscriptions, progress, and permissions.
 - A Clerk user must map to exactly one internal user record.
-- A user may have one or more roles, but the app should prefer one primary dashboard role per session.
+- A user's authorization roles are stored in `user_roles`; dashboard entry should derive one preferred dashboard role per session from those assignments.
 - Students access the student dashboard.
 - Teachers/reviewers access the teacher dashboard.
 - Admins access the admin dashboard.

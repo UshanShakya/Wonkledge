@@ -2,7 +2,7 @@
 
 ## Status
 
-- Not Started
+- Completed
 
 ## Source Requirement
 
@@ -33,16 +33,16 @@ Create the base App Router route group structure for public, student, teacher, a
 
 ## Checklist
 
-- [ ] Confirm current Clerk-authenticated route setup.
-- [ ] Move or recreate the public home route under `app/(public)/` without changing the `/` URL.
-- [ ] Create the student route group boundary.
-- [ ] Create the teacher route group boundary.
-- [ ] Create the admin route group boundary.
-- [ ] Add minimal protected placeholder pages only if needed to verify route protection.
-- [ ] Confirm `/` remains public.
-- [ ] Confirm protected namespaces redirect unauthenticated users through Clerk.
-- [ ] Run verification commands.
-- [ ] Update `context/progress-tracker.md` after completion.
+- [x] Confirm current Clerk-authenticated route setup.
+- [x] Move or recreate the public home route under `app/(public)/` without changing the `/` URL.
+- [x] Create the student route group boundary.
+- [x] Create the teacher route group boundary.
+- [x] Create the admin route group boundary.
+- [x] Add minimal protected placeholder pages only if needed to verify route protection.
+- [x] Confirm `/` remains public.
+- [x] Confirm protected namespaces redirect unauthenticated users through Clerk.
+- [x] Run verification commands.
+- [x] Update `context/progress-tracker.md` after completion.
 
 ## Completion Criteria
 
@@ -64,4 +64,20 @@ npm run build
 
 ## Completion Notes
 
-- Pending.
+- Moved the public home route from `app/page.tsx` to `app/(public)/page.tsx`, preserving the `/` URL.
+- Added protected route group layouts using Clerk server-side `auth.protect()`:
+  - `app/(student)/layout.tsx`
+  - `app/(teacher)/layout.tsx`
+  - `app/(admin)/layout.tsx`
+- Added minimal protected route shell pages:
+  - `/student` at `app/(student)/student/page.tsx`
+  - `/teacher` at `app/(teacher)/teacher/page.tsx`
+  - `/admin` at `app/(admin)/admin/page.tsx`
+- Internal user records, role mapping, dashboards, database, payment, AI, content, and subscription logic were intentionally left for later steps.
+- Verified with:
+  - `npm run lint`
+  - `npm run build`
+  - `npm run typecheck` after `next build` regenerated route metadata
+- Verified local route behavior on `http://localhost:3001`:
+  - `/` returns HTTP 200.
+  - `/student`, `/teacher`, and `/admin` return HTTP 307 to Clerk for unauthenticated browser-style requests.

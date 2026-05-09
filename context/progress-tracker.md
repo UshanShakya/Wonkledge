@@ -6,11 +6,11 @@ This file is intentionally light during the planning stage. Once development beg
 
 ## Current Phase
 
-- Implementation started / Authentication foundation complete
+- Implementation started / Base route groups complete
 
 ## Current Goal
 
-- Create the base public, student, teacher, and admin route groups as the next implementation unit. Read `context/steps/03-BaseRouteGroups.md` for more context.
+- Set up PostgreSQL and Prisma for internal user and role mapping as the next implementation unit. Read `context/steps/04-DatabaseAndRoleMappingFoundation.md` for more context.
 
 ## Completed
 
@@ -75,19 +75,35 @@ This file is intentionally light during the planning stage. Once development beg
   - `npm run typecheck`
   - `npm run lint`
   - `npm run build`
+- Public route moved under `app/(public)/` while preserving `/`.
+- Base protected route groups created:
+  - `app/(student)/`
+  - `app/(teacher)/`
+  - `app/(admin)/`
+- Minimal protected route shell pages added:
+  - `/student`
+  - `/teacher`
+  - `/admin`
+- Protected group layouts use Clerk server-side `auth.protect()`.
+- Step record `context/steps/03-BaseRouteGroups.md` marked completed.
+- Step record `context/steps/04-DatabaseAndRoleMappingFoundation.md` created for the next implementation unit.
+- Verified base route group setup with:
+  - `npm run lint`
+  - `npm run build`
+  - `npm run typecheck`
 
 ## In Progress
 
-- Project setup, Tailwind/shadcn setup, and Clerk authentication setup are complete.
-- Next implementation unit should create the base route groups.
+- Project setup, Tailwind/shadcn setup, Clerk authentication, and base route groups are complete.
+- Next implementation unit should add the PostgreSQL/Prisma foundation for internal user and role mapping.
 
 ## Next Up
 
-1. Create the base route groups:
-   - public
-   - student
-   - teacher
-   - admin
+1. Add PostgreSQL and Prisma foundation:
+   - database connection
+   - Prisma schema
+   - Prisma client helper
+   - environment placeholders
 2. Create internal user and role mapping.
 3. Build the first dashboard shells.
 4. Normalize protected dashboard redirects after internal roles exist.
@@ -135,3 +151,6 @@ This file is intentionally light during the planning stage. Once development beg
 - 2026-05-09: `npm install @clerk/nextjs` still reports 2 moderate npm audit findings; do not run `npm audit fix --force` without reviewing dependency impact.
 - 2026-05-09: Created `context/steps/03-BaseRouteGroups.md` as the next task record for public, student, teacher, and admin route group setup.
 - 2026-05-09: Local dev server started on `http://localhost:3001` because port `3000` was already in use. Public `/` and `/sign-in` responded with HTTP 200; `/student` is middleware-protected but remains 404 until Step 03 creates route shells.
+- 2026-05-09: Completed Step 03 route groups. `/` remains public from `app/(public)/page.tsx`; `/student`, `/teacher`, and `/admin` now exist and are protected by Clerk middleware plus server-side `auth.protect()` layouts.
+- 2026-05-09: Confirmed Clerk protected access can be tested without a database. Database-backed role authorization still requires the next PostgreSQL/Prisma step.
+- 2026-05-09: Created `context/steps/04-DatabaseAndRoleMappingFoundation.md` for PostgreSQL, Prisma, internal users, and role mapping.

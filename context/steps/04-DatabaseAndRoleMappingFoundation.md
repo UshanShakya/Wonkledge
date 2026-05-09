@@ -14,7 +14,7 @@
 
 ## Database Decision
 
-- Use PostgreSQL as the primary application database.
+- Use PostgreSQL as the primary application database. (to connect to docker postgres DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wonkledge_db?schema=public")
 - Use Prisma for schema, migrations, generated types, and data access.
 - Recommended local setup: Dockerized PostgreSQL for repeatable development, or a local PostgreSQL install if Docker is unavailable.
 - Recommended deployment setup: managed PostgreSQL compatible with Prisma.

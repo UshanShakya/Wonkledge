@@ -105,8 +105,8 @@ colors:
   inverse-on-surface: '#2e3038'
   outline: '#8c909f'
   outline-variant: '#424754'
-  surface-tint: '#adc6ff'
-  primary: '#adc6ff'
+  surface-tint: '#6d95ef'
+  primary: '#6d95ef'
   on-primary: '#002e6a'
   primary-container: '#4d8eff'
   on-primary-container: '#00285d'
@@ -124,7 +124,7 @@ colors:
   error-container: '#93000a'
   on-error-container: '#ffdad6'
   primary-fixed: '#d8e2ff'
-  primary-fixed-dim: '#adc6ff'
+  primary-fixed-dim: '#6d95ef'
   on-primary-fixed: '#001a42'
   on-primary-fixed-variant: '#004395'
   secondary-fixed: '#e9ddff'
@@ -225,9 +225,9 @@ When implementing the theme, map the Wonkledge tokens into CSS custom properties
   --outline: #8c909f;
   --outline-variant: #424754;
 
-  --surface-tint: #adc6ff;
+  --surface-tint: #6d95ef;
 
-  --primary: #adc6ff;
+  --primary: #6d95ef;
   --on-primary: #002e6a;
   --primary-container: #4d8eff;
   --on-primary-container: #00285d;
@@ -249,7 +249,7 @@ When implementing the theme, map the Wonkledge tokens into CSS custom properties
   --on-error-container: #ffdad6;
 
   --primary-fixed: #d8e2ff;
-  --primary-fixed-dim: #adc6ff;
+  --primary-fixed-dim: #6d95ef;
   --on-primary-fixed: #001a42;
   --on-primary-fixed-variant: #004395;
 
@@ -302,7 +302,7 @@ This design system uses a restricted **Deep Space** palette to maintain high con
 
 ## Accents
 
-- Primary accent: `primary` / Electric Blue `#adc6ff`
+- Primary accent: `primary` / Electric Blue `#6d95ef`
 - Strong primary container: `primary-container` `#4d8eff`
 - Secondary accent: `secondary` / Violet `#d0bcff`
 - Secondary container: `secondary-container` `#571bc1`

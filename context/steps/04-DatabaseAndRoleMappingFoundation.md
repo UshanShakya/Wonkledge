@@ -2,7 +2,7 @@
 
 ## Status
 
-- Not Started
+- Completed
 
 ## Source Requirement
 
@@ -21,13 +21,14 @@
 
 ## Task
 
-Add the PostgreSQL and Prisma foundation needed for internal users and roles, then connect Clerk identities to internal application users.
+Add the PostgreSQL and Prisma foundation needed for internal users and roles, then connect Clerk identities to internal application users. Also user logged in from admin should not be able to access other routes, for eg i logged in from /admin, but i was able to go to /student and /teacher as well. maybe this was becuase we have not setup the database properyl yet, but check that as well.
 
 ## Scope
 
 - Install Prisma packages:
   - `prisma`
   - `@prisma/client`
+  - `@prisma/adapter-pg`
 - Add database environment placeholders without committing secrets.
 - Add the initial Prisma schema for identity and roles only.
 - Add a shared Prisma client helper.
@@ -42,16 +43,16 @@ Add the PostgreSQL and Prisma foundation needed for internal users and roles, th
 
 ## Checklist
 
-- [ ] Confirm PostgreSQL is available locally or through a managed connection string.
-- [ ] Install Prisma dependencies.
-- [ ] Add `DATABASE_URL` placeholder documentation.
-- [ ] Create `prisma/schema.prisma`.
-- [ ] Model internal users and roles.
-- [ ] Add a Prisma client singleton helper.
-- [ ] Add the first server-side internal user lookup helper.
-- [ ] Run Prisma validation and migration.
-- [ ] Run verification commands.
-- [ ] Update `context/progress-tracker.md` after completion.
+- [x] Confirm PostgreSQL is available locally or through a managed connection string.
+- [x] Install Prisma dependencies.
+- [x] Add `DATABASE_URL` placeholder documentation.
+- [x] Create `prisma/schema.prisma`.
+- [x] Model internal users and roles.
+- [x] Add a Prisma client singleton helper.
+- [x] Add the first server-side internal user lookup helper.
+- [x] Run Prisma validation and migration.
+- [x] Run verification commands.
+- [x] Update `context/progress-tracker.md` after completion.
 
 ## Completion Criteria
 
@@ -75,4 +76,18 @@ npm run build
 
 ## Completion Notes
 
-- Pending.
+- Completed the Prisma 7 PostgreSQL foundation using `prisma.config.ts`, `prisma/schema.prisma`, `@prisma/client`, and `@prisma/adapter-pg`.
+- Added internal identity tables for `users` and `user_roles`, plus `AppRole` and `UserStatus` enums.
+- Added follow-up migration `20260509083000_remove_primary_role` so `user_roles` is the single source of truth for application authorization roles.
+- Applied migration `20260509072609_init_identity` against the local Docker PostgreSQL URL documented in this step.
+- Added `lib/prisma.ts` as the shared Prisma client singleton.
+- Added `lib/auth/app-user.ts` to resolve the current Clerk user, create missing student users on student access, and enforce role-specific access server-side.
+- Updated `/student`, `/teacher`, and `/admin` route-group layouts so a signed-in user must also have the correct internal role. Admin roles no longer automatically grant student or teacher access.
+- Normalized the environment placeholder filename from `.env example` to `.env.example` and added `DATABASE_URL` documentation.
+- Verification passed:
+  - `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wonkledge_db?schema=public" npx prisma validate`
+  - `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wonkledge_db?schema=public" npx prisma migrate dev --name init_identity`
+  - `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wonkledge_db?schema=public" npx prisma generate`
+  - `npm run typecheck`
+  - `npm run lint`
+  - `DATABASE_URL="postgresql://postgres:postgres@localhost:5432/wonkledge_db?schema=public" npm run build`

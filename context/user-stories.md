@@ -522,6 +522,24 @@ The platform helps students learn through structured courses, video lessons, wri
 
 ---
 
+# User Story 26A: Role-Specific Account Entry
+
+**User role:** Student / Teacher-Reviewer / Admin  
+**Goal:** Choose the correct account type before signing up or signing in.  
+**Reason / benefit:** So student and teacher accounts do not get mixed, and admin access is not granted through public signup.
+
+**Acceptance Criteria:**
+- Users can choose Student, Teacher, or Admin from the account entry screen.
+- Student signup creates a student-intent account and routes through `/dashboard`.
+- Teacher signup creates a teacher-reviewer-intent account and routes through `/dashboard`.
+- Admin public signup does not grant an admin role; admin access requires bootstrap or authorized role management.
+- Signed-in users are sent through `/dashboard`, which opens the dashboard that matches their internal role.
+- A teacher or admin intent must not silently create a student role.
+
+**Priority:** MVP / Core feature
+
+---
+
 # User Story 27: Role-Based Dashboard Access
 
 **User role:** Student / Teacher-Reviewer / Admin / Super Admin  
@@ -915,4 +933,3 @@ The first version should focus on proving the core value:
 **Students can choose an exam track, study through structured content, practice MCQs and subjective answers, receive AI feedback, track weaknesses and strengths, revise weak topics, and access paid content through subscriptions.**
 
 Admin should be able to manage content, subscriptions, payments, AI generation, review workflows, and AI usage costs.
-
